@@ -1,3 +1,3 @@
 该文件夹为全部开发源代码
-下载后在文件夹根目录创建sounds文件夹和box文件夹，sounds文件存储音效：bgm.mp3（池塘界面bgm）,bgm2.mp3庭院界面bgm,ketpress.mp3（键盘敲击音效）,water.mp3（钓到鱼提示音）,meom1.mp3-meom9999.mp3（各种猫叫，目前有八个）
+下载后在文件夹根目录创建sounds文件夹和box文件夹，sounds文件存储音效：bgm.mp3（池塘界面bgm）,bgm2.mp3庭院界面bgm,ketpress.mp3（键盘敲击音效）,water.mp3（钓到鱼提示音）,meow1.mp3-meow9999.mp3（各种猫叫，目前有八个）
 box文件夹存储庭院中猫咪gif图片：cat1.gif-cat999.gif（庭院中猫咪图片，目前四个），catput.gif（庭院中撸猫动画，目前固定为一个无法随机调用）
