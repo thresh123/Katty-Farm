@@ -113,7 +113,7 @@ CSS3 + HTML5	界面与动画
 开发环境
 bash
 # 克隆仓库
-git clone https://github.com/your-username/kitty-farm.git
+[git clone https://github.com/your-username/kitty-farm.git](https://github.com/thresh123/Katty-Farm.git)
 cd kitty-farm
 
 # 安装依赖
