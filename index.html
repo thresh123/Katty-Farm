@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>小猫农场 - 键盘池塘挂机游戏</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <div class="title-bar" id="titleBar">
+            <div class="title-text">🐱 小猫农场 | 键盘池塘</div>
+        </div>
+            <div class="window-controls">
+                <button id="fullscreenBtn" class="win-btn">⛶</button>
+                <button id="floatModeBtn" class="win-btn">🔲 浮窗</button>
+                <button id="soundSettingsBtn" class="win-btn">🔊 音效</button>
+                <button id="minimizeBtn" class="win-btn">─</button>
+                <button id="closeBtn" class="win-btn">✕</button>
+            </div>
+
+        <!-- 主视图：键盘池塘 -->
+        <div id="keyboardView" class="main-view" style="display: flex;">
+            <div class="main-content">
+                <div class="keyboard-panel">
+                    <div class="panel-header">
+                        <h2>🗝️ 我的键盘池塘 (104+键)</h2>
+                        <div class="mode-indicator" id="modeIndicator">⌨️ 监听模式: 启动中...</div>
+                    </div>
+                    <div class="keyboard-grid" id="keyboardGrid"></div>
+                    <div class="legend">
+                        <span>🐟 普通键位</span>
+                        <span>🐱 有猫驻守</span>
+                        <span>💧 鱼群活跃</span>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <div class="resources">
+                        <div class="resource-item">🐟 小鱼干: <span id="goldAmount">0</span></div>
+                        <div class="resource-item">✨ 珍稀鳞片: <span id="rareCurrency">0</span></div>
+                        <div class="resource-item">🎣 今日钓鱼: <span id="todayFish">0</span></div>
+                    </div>
+
+                    <div class="my-cats">
+                        <h3>🐈 我的猫咪 <button id="viewAllCatsBtn" class="tiny-btn">庭院视图</button></h3>
+                        <div class="cats-list" id="catsList"></div>
+                    </div>
+
+                    <div class="inventory">
+                        <h3>🎒 鱼获背包 <button id="sellAllBtn" class="tiny-btn">一键出售</button></h3>
+                        <div class="fish-inventory" id="fishInventory"></div>
+                    </div>
+
+                    <div class="shop">
+                        <h3>🏪 猫咪商店</h3>
+                        <div class="shop-items" id="shopItems"></div>
+                    </div>
+
+                    <button id="diaryBtn" class="diary-btn">📖 猫咪日记 (键盘报告)</button>
+
+                    <!-- 音效控制栏 -->
+                    <div class="sound-controls" style="margin-top: 10px; padding: 8px; background: #f5efe0; border-radius: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span>🎵 音效开关</span>
+                            <label><input type="checkbox" id="toggleBgm" checked> BGM</label>
+                            <label><input type="checkbox" id="toggleFishSound" checked> 钓鱼</label>
+                            <label><input type="checkbox" id="toggleMeowSound" checked> 猫叫</label>
+                            <label><input type="checkbox" id="toggleOtherSound" checked> 其他</label>
+                            <button id="refreshSoundsBtn" class="tiny-btn" style="margin:0;">🔄 刷新</button>
+                        </div>
+                        <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px;">
+                            <span>🔊 BGM音量</span>
+                            <input type="range" id="bgmVolume" min="0" max="100" value="30" style="flex:1;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 庭院视图 -->
+        <div id="gardenView" class="main-view" style="display: none; flex-direction: column; flex:1; background: #8bc34a; border-radius: 32px; margin: 20px; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.1);">
+            <div style="position: absolute; top: 20px; left: 20px; z-index: 10;">
+                <button id="backToKeyboardBtn" class="action-btn" style="background: #ffb882;">← 返回键盘池塘</button>
+            </div>
+            <div id="gardenCanvas" style="position: relative; width: 100%; height: 100%; cursor: grab;"></div>
+        </div>
+
+        <!-- 模态框 -->
+        <div id="diaryModal" class="modal">
+            <div class="modal-content diary-modal">
+                <span class="close">&times;</span>
+                <h2>📘 猫咪日记 —— 你的键盘环游记</h2>
+                <div id="diaryContent" class="diary-content"></div>
+                <button id="shareDiaryBtn" class="action-btn">📸 生成分享图</button>
+            </div>
+        </div>
+        <div id="soundModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>🎵 音效自定义</h2>
+                <div id="soundSettingsPanel"></div>
+                <button id="refreshSoundsModalBtn" class="action-btn">刷新音频列表</button>
+            </div>
+        </div>
+        <div id="assignModal" class="modal">
+            <div class="modal-content" style="max-width: 400px;">
+                <span class="close">&times;</span>
+                <h3>🐱 派驻猫咪</h3>
+                <p id="assignCatName"></p>
+                <input type="text" id="assignKeyInput" placeholder="输入键位，例如：Q, W, E, Space, F1" style="width: 100%; padding: 8px; margin: 10px 0; border-radius: 20px; border: 1px solid #ccc;">
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button id="assignCancelBtn" class="tiny-btn">取消</button>
+                    <button id="assignConfirmBtn" class="action-btn" style="margin-top: 0;">确认派驻</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html>
